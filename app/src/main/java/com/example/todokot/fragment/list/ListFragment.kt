@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.todokot.data.viewmodel.ToDoViewModel
 import com.example.todokot.R
+import com.example.todokot.SharedViewModel
 import com.example.todokot.databinding.FragmentListBinding
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
@@ -24,6 +25,7 @@ class ListFragment : Fragment() {
     private lateinit var binding: FragmentListBinding
     private val mToDoViewModel: ToDoViewModel by viewModels()
     private val adapter: ListAdapter by lazy { ListAdapter() }
+    private val mSharedViewModel: SharedViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,9 +42,13 @@ class ListFragment : Fragment() {
 
         // Observe LiveData and update the adapter
         mToDoViewModel.getAllData.observe(viewLifecycleOwner, Observer { data ->
+            mSharedViewModel.checkIfDatabaseEmpty(data)
             adapter.setData(data)
         })
 
+        mSharedViewModel.emptyDatabase.observe(viewLifecycleOwner, Observer {
+            showEmptyDatabaseViews(it)
+        })
         // Set up FAB click listener to navigate to the add fragment
         binding.floatingActionButton4.setOnClickListener {
             findNavController().navigate(R.id.action_add_to_listFragment)
@@ -54,13 +60,23 @@ class ListFragment : Fragment() {
         return view
     }
 
+    private fun showEmptyDatabaseViews(emptyDatabase: Boolean) {
+        if (emptyDatabase) {
+            binding.noDataImg.visibility = View.VISIBLE
+            binding.noDataTv.visibility = View.VISIBLE
+        } else {
+            binding.noDataImg.visibility = View.INVISIBLE
+            binding.noDataTv.visibility = View.INVISIBLE
+        }
+    }
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.list_fragment_menu, menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.menu_delete_all) {
-           confirmRemove()
+            confirmRemove()
         }
         return super.onOptionsItemSelected(item)
     }
