@@ -9,15 +9,17 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Spinner
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.example.todokot.R
+import com.example.todokot.SharedViewModel
 import com.example.todokot.data.models.Priority
 
 
 class Update : Fragment() {
 
     private val args by navArgs<UpdateArgs>()
-
+    private val mSharedViewModel: SharedViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -31,7 +33,8 @@ class Update : Fragment() {
             .setText(args.currentItem.description)
         view.findViewById<Spinner>(R.id.current_spinner_priorites)
             .setSelection(parsePriority(args.currentItem.priority))
-
+        view.findViewById<Spinner>(R.id.current_spinner_priorites)
+            .onItemSelectedListener = mSharedViewModel.listener
         // Inflate the layout for this fragment
         return view
     }
