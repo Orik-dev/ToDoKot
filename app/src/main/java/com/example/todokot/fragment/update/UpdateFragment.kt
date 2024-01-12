@@ -1,5 +1,6 @@
 package com.example.todokot.fragment.update
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -58,13 +59,15 @@ class Update : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.menu_save) {
-            updateItem()
+        when (item.itemId) {
+            R.id.menu_save -> updateItem()
+            R.id.menu_delete -> confirmItemRemove()
         }
         return super.onOptionsItemSelected(item)
     }
 
-    private fun updateItem() {
+
+    fun updateItem() {
         //Update current item
         val title = binding.currentTitleEt.text.toString()
         val description = binding.currentDescriptionEt.text.toString()
@@ -85,5 +88,23 @@ class Update : Fragment() {
             Toast.makeText(requireContext(), "Please fill out all fields.", Toast.LENGTH_SHORT)
                 .show()
         }
+    }
+
+    //Show AlertDialog to confirm item Remove
+    private fun confirmItemRemove() {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setPositiveButton("Yes") { _, _ ->
+            mToDoViewModel.deleteItem(args.currentItem)
+            Toast.makeText(
+                requireContext(),
+                "Successfully remove!! ${args.currentItem.title}",
+                Toast.LENGTH_SHORT
+            ).show()
+            findNavController().navigate(R.id.action_update_to_listFragment)
+        }
+        builder.setNegativeButton("No") { _, _ -> }
+        builder.setTitle("Delete '${args.currentItem.title}'")
+        builder.setMessage("Are you sure you want to remove ${args.currentItem.title}?")
+        builder.create().show()
     }
 }
