@@ -43,10 +43,6 @@ class ListFragment : Fragment() {
 
         }
 
-        view.findViewById<ConstraintLayout>(R.id.listLayout).setOnClickListener {
-
-            findNavController().navigate(R.id.action_listFragment_to_update)
-        }
         //Set menu
         setHasOptionsMenu(true)
         return view

@@ -2,7 +2,10 @@ package com.example.todokot.fragment.list
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.todokot.data.models.Priority
 import com.example.todokot.data.models.ToDoData
@@ -29,6 +32,10 @@ class ListAdapter : RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.binding.titleTxt.text = dataList[position].title
         holder.binding.descriptionTxt.text = dataList[position].description
+        holder.binding.rowBackground.setOnClickListener {
+            val action = ListFragmentDirections.actionListFragmentToUpdate(dataList[position])
+            holder.itemView.findNavController().navigate(action)
+        }
         when (dataList[position].priority) {
             Priority.HIGH -> holder.binding.priorityIndicator.setCardBackgroundColor(
                 ContextCompat.getColor(
