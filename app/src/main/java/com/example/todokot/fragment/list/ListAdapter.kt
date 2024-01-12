@@ -2,10 +2,8 @@ package com.example.todokot.fragment.list
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.todokot.data.models.Priority
 import com.example.todokot.data.models.ToDoData
