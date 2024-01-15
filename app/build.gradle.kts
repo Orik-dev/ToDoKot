@@ -86,5 +86,6 @@ dependencies {
 //    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4"
 //    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"
 
-
+//Animation
+    implementation ("jp.wasabeef:recyclerview-animators:4.0.2")
 }
