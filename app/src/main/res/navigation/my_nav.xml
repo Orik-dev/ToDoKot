@@ -11,7 +11,7 @@
         android:label="ToDo List"
         tools:layout="@layout/fragment_list" >
         <action
-            android:id="@+id/action_add_to_listFragment"
+            android:id="@+id/action_listFragment_to_addFragment"
             app:destination="@id/add"
             app:enterAnim="@anim/from_right"
             app:exitAnim="@anim/to_left"
